@@ -76,6 +76,8 @@
 
             $data = $this->data();
 
+
+            
             $this->DbOperations->insert($data);
             $collection['msg'] = "Data Submited";
             
