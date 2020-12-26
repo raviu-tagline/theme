@@ -6,6 +6,7 @@
         {
             parent::__construct();
             $this->load->database();
+            $this->load->library('session');
         }
 
         public function index()
@@ -54,7 +55,8 @@
         public function register()
         {
             $data['header'] = "register";
-            $this->load->helper('form','form_validation');
+            $this->load->helper('form');
+            $this->load->library('form_validation');
             $this->load->view('Home/register.php',$data);
         }
 
@@ -63,25 +65,34 @@
             $this->load->helper('form');
 
             $this->load->library('form_validation');
+            
 
             $this->load->model('DbOperations');
 
 
             $collection['header'] = "register";
            
-            $this->form_validation->set_rules('userMail','Email','trim|valid_email|is_unique[tbl_data.reg_email]','This %s already exist');
-            $this->form_validation->set_rules('userCPass','Paasword','matches[userPass]');
-            $this->form_validation->set_rules('userMobile','Mobile Number','exact_length[10]');
+            $this->form_validation->set_rules('userMail','Email','trim|valid_email|is_unique[tbl_data.reg_email]',array('is_unique'=>'This %s already exist'));
+            $this->form_validation->set_rules('userPass','Password','trim');
+            $this->form_validation->set_rules('userCPass','Confirm Paasword','trim|matches[userPass]',array('matches'=>'The %s not match'));
+            $this->form_validation->set_rules('mobile','Mobile Number','trim|regex_match[/^[6-9][0-9]{9}$/]',array('regex_match'=>'Check Your Number'));
+            $this->form_validation->set_error_delimiters('<p class="error">','</p>');
             
 
             $data = $this->data();
 
-
+            if($this->form_validation->run() == FALSE)
+            {
+                $this->load->view("Home/register.php");
+            }
+            else
+            {
+                $this->DbOperations->insert($data);
+                $collection['msg'] = "Data Submited";
+                $this->session->set_flashdata('suc_message','Data Inserted');
+                redirect(base_url('register'));
+            }
             
-            $this->DbOperations->insert($data);
-            $collection['msg'] = "Data Submited";
-            
-            $this->load->view('Home/register.php',$collection,$data);
         }
 
         private function data()

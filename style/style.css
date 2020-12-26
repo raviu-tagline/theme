@@ -749,3 +749,15 @@ input[type=radio]
 	width: 30px !important;
     margin-top: 0 !important;
 }
+
+.error
+{
+	color: orangered !important;
+    font-size: 20px !important;
+}
+
+.msg
+{
+	color: lawngreen !important;
+    font-size: 20px !important;
+}
