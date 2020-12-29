@@ -7,6 +7,7 @@
             parent::__construct();
             $this->load->database();
             $this->load->library('session');
+            
         }
 
         public function index()
@@ -56,7 +57,8 @@
         {
             $data['header'] = "register";
             $this->load->helper('form');
-            $this->load->library('form_validation');
+            // $this->load->library();
+            $this->load->library(array('form_validation','image_lib'));
             $this->load->view('Home/register.php',$data);
         }
 
@@ -77,7 +79,6 @@
             $this->form_validation->set_rules('userCPass','Confirm Paasword','trim|matches[userPass]',array('matches'=>'The %s not match'));
             $this->form_validation->set_rules('mobile','Mobile Number','trim|regex_match[/^[6-9][0-9]{9}$/]',array('regex_match'=>'Check Your Number'));
             $this->form_validation->set_error_delimiters('<p class="error">','</p>');
-            
 
             $data = $this->data();
 

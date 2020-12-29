@@ -1,11 +1,8 @@
+
 <?php
     $this->load->view('Home/Layout/header.php',"register");
 ?>
-<?php
-    // $m = '';
-    // if(issset($msg))
-    //     $m = $msg;
-?>
+
 <div id="body" class="contact">
     <div>
         <h1>Register Here</h1>
@@ -24,7 +21,9 @@
             echo validation_errors();
         ?>
 
-        <?php echo form_open(base_url('insert_data')); ?>
+        <?php $data = array('enctype' => 'multipart/form-data'); ?>
+
+        <?php echo form_open(base_url('insert_data'),$data); ?>
 
         <input type="text" id="txtName" name="fullName" placeholder="Enter Full Name" value="<?php echo set_value('fullName')?>" required/>
 
@@ -62,12 +61,15 @@
         <textarea name='addr' cols='50' rows='7' placeholder='Enter address' required><?php echo set_value('addr')?></textarea>
         <br>
         
+        <input type="file" id="imgUpload" name='imgUpload' accept='image/*' />
+
         <input id='submit' value='submit' type='submit'/>
         
         </form>
         
     </div>
 </div>
+
 <?php
     $this->load->view('Home/Layout/footer.php',"register");
 ?>
