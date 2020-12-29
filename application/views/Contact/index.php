@@ -1,5 +1,5 @@
 <?php
-    $this->load->view('Home/Layout/header.php',"contact");
+    $this->load->view('Layout/header.php',"contact");
 ?>
 <div id="body" class="contact">
 	<div>
@@ -33,5 +33,5 @@
 	</div>
 </div>
 <?php
-    $this->load->view('Home/Layout/footer.php',"contact");
+    $this->load->view('Layout/footer.php',"contact");
 ?>

@@ -54,11 +54,16 @@ $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
 $route['home'] = 'Home_Controller';
-$route['about'] = 'Home_Controller/about';
-$route['running'] = 'Home_Controller/running';
-$route['blog'] = 'Home_Controller/blog';
-$route['contact'] = 'Home_Controller/contact';
-$route['runningsinglepost'] = "Home_Controller/runningsinglepost";
-$route['blogsinglepost'] = "Home_Controller/blogsinglepost";
-$route['register'] = "Home_Controller/register";
-$route['insert_data'] = "Home_Controller/insert_data";
+
+$route['about'] = 'About_Controller';
+
+$route['running'] = 'Running_Controller';
+$route['runningsinglepost'] = "Running_Controller/runningsinglepost";
+
+$route['blog'] = 'Blog_Controller';
+$route['blogsinglepost'] = "Blog_Controller/blogsinglepost";
+
+$route['contact'] = 'Contact_Controller';
+
+$route['register'] = "Register_Controller";
+$route['insert_data'] = "Register_Controller/insert_data";

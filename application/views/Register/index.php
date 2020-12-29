@@ -1,6 +1,6 @@
 
 <?php
-    $this->load->view('Home/Layout/header.php',"register");
+    $this->load->view('Layout/header.php',"register");
 ?>
 
 <div id="body" class="contact">
@@ -71,5 +71,5 @@
 </div>
 
 <?php
-    $this->load->view('Home/Layout/footer.php',"register");
+    $this->load->view('Layout/footer.php',"register");
 ?>
