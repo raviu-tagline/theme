@@ -32,7 +32,7 @@
                         
                     }
                      $id=1;
-                    foreach($rec as $row)
+                    foreach($record['rec'] as $row)
                     {
                         foreach($row as $key)
                         {?>
