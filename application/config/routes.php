@@ -67,3 +67,9 @@ $route['contact'] = 'Contact_Controller';
 
 $route['register'] = "Register_Controller";
 $route['insert_data'] = "Register_Controller/insert_data";
+
+$route['dashboard'] = 'Dashboard_Controller';
+$route['update/:any'] = 'Dashboard_Controller/update_data_view/$1';
+$route['delete/:any'] = 'Dashboard_Controller/delete_data/$1';
+$route['update_data/:any'] = 'Dashboard_Controller/update_data/$1';
+

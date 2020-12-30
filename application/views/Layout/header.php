@@ -70,6 +70,11 @@
                     <li class='<?php echo $class; ?>'>
                         <a href=" <?php echo base_url("register");?>">Register</a>
                     </li>
+
+                    <?php $class = isset($header) && $header == "data" ? "selected" : "" ?>
+                    <li class='<?php echo $class; ?>'>
+                        <a href=" <?php echo base_url("dashboard");?>">Data</a>
+                    </li>
                 </ul>
             </div>
         </div>
