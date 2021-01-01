@@ -16,6 +16,10 @@
             }
         }
     }
+    else
+    {
+        $tmpArr = NULL;
+    }
 ?>
 
 
@@ -42,7 +46,7 @@
         <?php 
             if(isset($tmpArr))
             {
-                $id = $this->encryption->encrypt($tmpArr['reg_id']);
+                // $id = $this->encryption->encrypt($id);
                 echo form_open(base_url('update_data/').$id,$data);
             }
             else
@@ -51,43 +55,52 @@
             }
         ?>
 
-        <input type="text" id="txtName" name="fullName" placeholder="Enter Full Name" value="<?php echo set_value('fullName') ? set_value('fullName') : $tmpArr['reg_name'];?>" required/>
+        <input type="text" id="txtName" name="fullName" placeholder="Enter Full Name" value="<?php echo set_value('fullName') ? set_value('fullName') : (
+            isset($tmpArr['reg_name']) ? $tmpArr['reg_name'] : "");?>" required/>
 
         <br/>
 
-        <input type="email" id="txtMail" name="userMail" placeholder="Enter Email" value="<?php echo set_value('userMail') ? set_value('userMail') : $tmpArr['reg_email'];?>" required/>
+        <input type="email" id="txtMail" name="userMail" placeholder="Enter Email" value="<?php echo set_value('userMail') ? set_value('userMail') : (
+                isset($tmpArr['reg_email']) ? $tmpArr['reg_email'] : "");?>" required/>
 
         <br/>
 
-        <input type="password" id="txtPass" name="userPass" placeholder="Enter Pass" value="<?php echo set_value('userPass') ? set_value('userPass') : $tmpArr['reg_pass'];?>" required/>
+        <input type="password" id="txtPass" name="userPass" placeholder="Enter Pass" value="<?php echo set_value('userPass') ? set_value('userPass') : (
+                isset($tmpArr['reg_pass']) ? $tmpArr['reg_pass'] : "");?>" required/>
 
         <br/>
 
-        <input type="password" id="txtCPass" name="userCPass" placeholder="Confirm Your Password" value="<?php echo set_value('userCPass') ? set_value('userCPass') : $tmpArr['reg_pass'];?>" required/>
+        <input type="password" id="txtCPass" name="userCPass" placeholder="Confirm Your Password" value="<?php echo set_value('userCPass') ? set_value('userCPass') : (
+            isset($tmpArr['reg_pass']) ? $tmpArr['reg_pass'] : "");?>" required/>
 
         <br/>
 
         <div class="radio">
-            <input type="radio" id="rdbMale" name="gender" Value="Male" <?php echo (set_value('gender') || $tmpArr['reg_gender'] == 'Male' ) ? "checked" : "";?> /> 
+            <input type="radio" id="rdbMale" name="gender" Value="Male" <?php echo (set_value('gender') == 'Male') ? "checked" : (
+                isset($tmpArr['reg_gender']) && $tmpArr['reg_gender'] == 'Male' ? 'checked' : "");?> /> 
             <label>Male</label>
 
-            <input type="radio" id="rdbFemale" name="gender" Value="Female" <?php echo (set_value('gender') || $tmpArr['reg_gender'] == 'Female') ? "checked" : "";?> /> 
+            <input type="radio" id="rdbFemale" name="gender" Value="Female" <?php echo (set_value('gender') == 'Female') ? "checked" : (
+                isset($tmpArr['reg_gender']) && $tmpArr['reg_gender'] == 'Female' ? 'checked' : "");?> /> 
             <label>Female</label>
         </div>
         <br/>
 
-        <input type="date" id="txtBDate" name="userBirthDate" value="<?php echo set_value('userBirthDate') ? set_value('userBirthDate') : $tmpArr['reg_birth_date'];?>" required/>
+        <input type="date" id="txtBDate" name="userBirthDate" value="<?php echo set_value('userBirthDate') ? set_value('userBirthDate') : (
+            isset($tmpArr['reg_birth_date']) ? $tmpArr['reg_birth_date'] : "");?>" required/>
 
         <br/>
 
-        <input type="number" id="txtMobile" name="mobile" placeholder="Enter Your Mobile Number" value="<?php echo set_value('mobile') ? set_value('mobile') : $tmpArr['reg_mobile'];?>" required/>
+        <input type="number" id="txtMobile" name="mobile" placeholder="Enter Your Mobile Number" value="<?php echo set_value('mobile') ? set_value('mobile') : (
+            isset($tmpArr['reg_mobile']) ? $tmpArr['reg_mobile'] : "");?>" required/>
 
         <br/>
         
-        <textarea name='addr' cols='50' rows='7' placeholder='Enter address' required><?php echo set_value('addr') ? set_value('addr') : $tmpArr['reg_address'];?></textarea>
+        <textarea name='addr' cols='50' rows='7' placeholder='Enter address' required><?php echo set_value('addr') ? set_value('addr') : (
+            isset($tmpArr['reg_address']) ? $tmpArr['reg_address'] : "");?></textarea>
         <br>
         
-        <input type="file" id="imgUpload" name='imgUpload' accept='image/*' />
+        <input type="file" id="imgUpload" name='imgUpload' accept='image/*' required/>
 
         <input id='submit' value='submit' type='submit'/>
         

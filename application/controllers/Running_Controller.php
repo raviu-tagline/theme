@@ -8,7 +8,7 @@
         
         public function index()
         {
-            $data['header'] ="about";
+            $data['header'] ="running";
             $this->load->view('Running/index.php',$data);
         }
 

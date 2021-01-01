@@ -8,7 +8,7 @@
         
         public function index()
         {
-            $data['header'] ="about";
+            $data['header'] ="contact";
             $this->load->view('Contact/index.php',$data);
         }
     }

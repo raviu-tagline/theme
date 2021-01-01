@@ -2,7 +2,7 @@
     $this->load->view('Layout/header.php',"data");
 ?>
 <div id="body">
-    <div>
+    <div class="table">
         <table border="1" width="100%" style="color:white;" height="100%">
             <thead>
                 <tr>
@@ -20,57 +20,37 @@
             <tbody>
 
                 <?php
-                    if(isset($records))
-                    {
+                    if(isset($record)):
                         echo "<pre style='color: white;'>";
-                        print_r($records);
+                        print_r($record);
                         echo "</pre>";
                         die;
-                    }
-                    else
-                    {
-                        
-                    }
-                     $id=1;
-                    foreach($record['rec'] as $row)
-                    {
-                        foreach($row as $key)
-                        {?>
-                            <tr>
-
-                            <?php
-                                foreach($key as $sub_key => $value)
-                                {
-                                        if($sub_key == 'reg_id')
-                                        {
-                                            $id = $value;
-                                        }
-                                        if($sub_key == 'reg_pass')
-                                        {
-                                            continue;
-                                        }
-                                        if($sub_key == 'reg_image')
-                                        {?>
-                                            <td><img src="<?php echo base_url("images/uploads/").$value;?>" height="50" width="50"/></td>
-                                <?php   }
-                                        else
-                                        {?>
-                                            <td><?php echo $value;?></td>
-                            <?php       }
-                                        $cid = $this->encryption->encrypt($id);
-                                        
-                                }?>
+                    endif;
+                    $ind = 1;
+                    $id='';
+                    foreach($records as $row):?>
+                        <tr>
+                    <?php   foreach($row as $key => $value):
+                                if($key == 'reg_image'):?>
+                                    <td><img src="<?php echo base_url("images/uploads/").$value;?>" height="50px" width="50px"/>
+                        <?php   elseif ($key == 'reg_pass'):
+                                    continue;
+                                elseif ($key == 'reg_id'):
+                                    $id = $value;
+                                    echo "<td>{$ind}</td>";
+                                else:?>
+                                    <td><?php echo $value;?></td>
+                        <?php   endif;
+                                // $cid = $this->encryption->encrypt($id);
+                                $cid = $id;
+                            ?>
+                    <?php   endforeach;?>
                                 <td><a href="<?php echo base_url('update/').$cid;?>" name="edit" value="<?php echo $id;?>">Edit</a></td>
 
-                                <td><a href="<?php echo base_url('delete/').$cid;?>" name="delete" value="<?php echo $id;?>">Delete</a></td>
-
-                            </tr>
-
-                <?php   }
-                    }
-                    
-                ?>
-
+                                <td><a href="<?php echo base_url('delete/').$cid;?>" onClick="javascript: return confirm('Are you sure to delete this record ?');" name="delete" value="<?php echo $id;?>">Delete</a></td>
+                        </tr>
+            <?php   $ind += 1;
+                    endforeach;?>
             </tbody>
         </table>
     </div>
