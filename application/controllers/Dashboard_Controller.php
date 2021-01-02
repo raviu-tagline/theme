@@ -8,9 +8,16 @@
 
         public function index()
         {
-            $result = $this->DbOperations->select('tbl_data');
-            $data = array("header" => 'data','records' => $result);
-            $this->load->view('Dashboard/index.php',$data);
+            if(isset($_SESSION['userID']))
+            {
+                $result = $this->DbOperations->select('tbl_data');
+                $data = array("header" => 'data','records' => $result);
+                $this->load->view('Dashboard/index.php',$data);
+            }
+            else 
+            {
+                $this->load->view('Login/index.php');
+            }
         }
         
         public function delete_data()

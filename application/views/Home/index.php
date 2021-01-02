@@ -15,7 +15,7 @@
         <div>
             <h1>WINNING</h1>
             <p>What’s more, they’re absolutely free! You can do a lot with them. You can modify them.</p>
-            <a href=" <?php echo base_url("home/blog");?>" class="more">Read More</a>
+            <a href=" <?php echo base_url("blog");?>" class="more">Read More</a>
         </div>
     </div>
 </div>

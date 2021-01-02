@@ -10,102 +10,129 @@
         
         public function index()
         {
-            $data['header'] ="register";
+            $result =  $this->DbOperations->select('tbl_country');
+            $data = array("header" => 'register','info' => $result);
             $this->load->view('Register/index.php',$data);
         }
 
         public function insert_data($id = '', $data = '')
         {
             
-            $collection['header'] = "register";
+            /*if($id != '' && $id != NULL && is_numeric($id))
+            {
+                echo "Id ::: ".$id." data :::: ".$data;
+                // $id = $this->encryption->decode($id);
+            }*/
            
             $this->form_validation->set_rules('fullName', 'Name', 'trim|regex_match[/^[a-zA-Z]+/]', array('regex_match' => 'Your %s contains other then alphabets'));
 
-            $this->form_validation->set_rules('userMail','Email',"callback_exist_check");
+            $this->form_validation->set_rules('userMail','Email',"trim|callback_exist_check");
             $this->form_validation->set_rules('userPass', 'Password',   'trim'   );
             $this->form_validation->set_rules('userCPass',  'Confirm Paasword', 'trim|matches[userPass]',   array(   'matches'=>'The %s not match'    )  );
-            $this->form_validation->set_rules('mobile',  'Mobile Number',  'trim|regex_match[/^[6-9][0-9]{9}$/]|callback_exist_check',
+            $this->form_validation->set_rules('mobile',  'Mobile Number',  'trim|regex_match[/^[6-9][0-9]{9}$/]',
                 array( 'regex_match'=>'Check Your %s'   )  );
             
             $this->form_validation->set_error_delimiters('<p class="error">','</p>');
 
+            $data = array();
 
-            $data = $this->data();
-            
-            if($this->form_validation->run())
+            if($this->form_validation->run() == FALSE)
             {
-                if($id != '' || $id != NULL)
+                $data['header'] = "register";
+                if($id != '' && $id != NULL &&  is_numeric($id))
                 {
-                    // $id = $this->encryption->decrypt($id);
-                    $this->DbOperations->update($id, $data);
-                    $data['header'] = 'data';
-                    redirect(base_url('dashboard'));
+                    $record = $this->DbOperations->getById($id);
+                    $data['records'] = $record;
                 }
                 else
                 {
-                    $this->DbOperations->insert($data);
-                    $this->session->set_flashdata('suc_message','Data Inserted');
-                    redirect(base_url('dashboard'));
+                    $data['records'] = '';
                 }
+                $this->load->view("Register/index.php",$data);
             }
             else
             {
-                $this->load->view("Register/index.php");
+                $data['records'] = $this->data();
+
+                if($id == '' || $id == NULL)
+                {
+                    $this->DbOperations->insert($data);
+                    $this->session->set_flashdata('suc_message','Data Inserted');
+                }
+                else
+                {
+                    $this->DbOperations->update($id, $data['records']);
+                    $this->session->set_flashdata('suc_message','Data Updated');
+                    $data['header'] = 'data';
+                }
+                echo "Operations performed";
+                header('location:'.base_url('dashboard'));
             }
-            
         }
 
-        public function exist_check()
+        public function exist_check($str = '')
         {
             $id = $this->uri->segment('2');
-            if($id === NULL)
+            
+            if($id == NULL)
             {
-                $this->form_validation->set_rules('userMail','Mail','is_unique[tbl_data.reg_email]', array( 'is_unique' => '%s already exist'));
-                $this->form_validation->set_rules('mobile','Mobile number','is_unique[tbl_data.reg_mobile]', array('is_unique' => '%s already exist'));
-                if($this->form_validation->run())
+                //Code for validate email at time of insert.
+
+                $where = ' where reg_email = '."'$str'";
+                $result = $this->DbOperations->getByCondition($where);
+
+                if(isset($result))
+                {
+                    $this->form_validation->set_message('exist_check','{field} already exist');
+                    return FALSE;
+                }
+                else
                 {
                     return TRUE;
                 }
-                else 
-                {
-                    $this->form_validation->set_error_delimiters('<p class="error">','</p>');
-                }
             }
-            else {
-                $result = $this->DbOperations->select_where($id);
-                // foreach ($result as $tmp):
+            else 
+            {
+                //Code for validate email at time of update.
 
-                //     foreach ($tmp as $k => $v):
+                $where = ' where reg_email = '."'$str' and reg_id = $id";
+                $result = $this->DbOperations->getByCondition($where);
 
-                //         if ($k == 'reg_email'):
-                            
-                //             $str = $v;
-                //             break;
-
-                //         endif;
-
-                //     endforeach;
-
-                // endforeach;
-
-                $this->form_validation->set_rules('userMail','Mail',"matches[tbl_data.reg_email]", array('matches' => "%s already exist"));
-                if($this->form_validation->run() == FALSE)
+                if( ! empty($result))
                 {
-                    return $this->form_validation->set_error_delimiters('<p class="error">','</p>');
+                    return TRUE;
                 }
-                else {
-                    echo "True";
-                    die;
+                else
+                {
+                    $this->form_validation->set_message('exist_check','{field} already exist');
+                    return FALSE;
                 }
             }
         }
 
+        public function check_mail($email = '')
+        {
+            echo "Line : 155 Email is already taken ::: ".$email;
+            $info = $_REQUEST['userMail'];
+            echo "<br>Line : 157 ".$info;
+            // die;
+            if($info == $email)
+            {
+                echo "<br>Line : 161 Returns true";
+                return TRUE;
+            }
+            else
+            {
+                echo "Returns FALSE";
+                return FALSE;
+            }
+        }
         public function update_data_view()
         {
             $id = $this->uri->segment('2');
             // $id = $this->encryption->decrypt($id);
             // echo "<p>{$id}</p>";
-            $result = $this->DbOperations->select_where($id);
+            $result = $this->DbOperations->getById($id);
             $data['records'] = $result;
             $data['header'] = 'register';
             $data['id'] = $id;
@@ -183,6 +210,22 @@
                 $data = array('upload_data' => $this->upload->data());
                 return $data;
             }
+        }
+
+        public function getState($cid = '')
+        {
+            $id = $_REQUEST['id'];
+            $where = " where country_id = $id";
+            $data = array('info' => $this->DbOperations->getByCondition($where, 'tbl_state'));
+            return $this->load->view('Register/getState.php',$data);
+        }
+
+        public function getCity($sid = '')
+        {
+            $id = $_REQUEST['id'];
+            $where = " where state_id = $id";
+            $data = array('info' => $this->DbOperations->getByCondition($where, 'tbl_city'));
+            return $this->load->view('Register/getCity.php',$data);
         }
     }
 ?>

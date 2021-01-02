@@ -72,3 +72,6 @@ $route['update_data/:any'] = 'Register_Controller/update_data/$1';
 
 $route['dashboard'] = 'Dashboard_Controller';
 $route['delete/:any'] = 'Dashboard_Controller/delete_data/$1';
+
+$route['login'] = 'Login_Controller';
+$route['authenticate'] = 'Login_Controller/authentication';

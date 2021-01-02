@@ -8,8 +8,14 @@
         
         public function index()
         {
-            $data['header'] ="running";
-            $this->load->view('Running/index.php',$data);
+            if(isset($_SESSION['userID']))
+            {
+                $data['header'] ="running";
+                $this->load->view('Running/index.php',$data);
+            }
+            else {
+                $this->load->view("Login/index.php");
+            }
         }
 
         public function runningsinglepost()

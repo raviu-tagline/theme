@@ -17,8 +17,7 @@
         public function select($tbl = "tbl_data",$where = 'WHERE 1')
         {
             $query = $this->db->get($tbl);
-            $result = $query->result();
-            return $result;
+            return $query->result();
         }
 
         public function update($id, $data, $tbl = 'tbl_data')
@@ -44,11 +43,29 @@
             }
         }
 
-        public function select_where($id,$tbl = "tbl_data")
+        public function getById($id,$tbl = "tbl_data")
         {
             $query = $this->db->get_where($tbl, array('reg_id' => $id));
-            $result = $query->result();
-            return $result;
+            return $query->result();
+        }
+
+        public function getByCondition($where = '', $tbl = 'tbl_data')
+        {
+            $str = 'select * from '.$tbl." ".$where;
+            $query = $this->db->query($str);
+            return $query->result();
+        }
+
+        public function getField($field, $tbl = 'tbl_data')
+        {
+            if($field == '')
+            {
+                $field = '*';
+            }
+            $str = "select $field from $tbl";
+            $query = $this->db->query($str);
+            // $result = $query->result();
+            return $query->result();
         }
     }
 ?>

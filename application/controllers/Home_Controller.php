@@ -9,8 +9,14 @@
 
         public function index()
         {
-            $data['header'] ="Home";
-            $this->load->view('Home/index.php',$data);
+           if(isset($_SESSION['userID']))
+           {
+                $data['header'] ="Home";
+                $this->load->view('Home/index.php',$data);
+           }
+           else {
+               $this->load->view('Login/index.php');
+           }
         }
     }
 ?>

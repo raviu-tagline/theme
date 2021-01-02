@@ -8,8 +8,14 @@
         
         public function index()
         {
-            $data['header'] ="about";
-            $this->load->view('About/index.php',$data);
+           if(isset($_SESSION['userID']))
+           {
+                $data['header'] ="about";
+                $this->load->view('About/index.php',$data);
+           }
+           else {
+               $this->load->view('Login/index.php');
+           }
         }
     }
 ?>
