@@ -1,5 +1,5 @@
 <?php
-    $this->load->view('Home/Layout/header.php',"running");
+    $this->load->view('Layout/header.php',"running");
 ?>
 <div id="body" class="runningsinglepost">
 	<div>
@@ -12,5 +12,5 @@
 	</div>
 </div>
 <?php
-    $this->load->view('Home/Layout/footer.php',"running");
+    $this->load->view('Layout/footer.php',"running");
 ?>

@@ -1,5 +1,5 @@
 <?php
-    $this->load->view('Home/Layout/header.php',"blog");
+    $this->load->view('Layout/header.php',"blog");
 ?>
 <div id="body" class="blogsinglepost">
 	<div>
@@ -14,5 +14,5 @@
 	</div>
 </div>
 <?php
-    $this->load->view('Home/Layout/footer.php',"blog");
+    $this->load->view('Layout/footer.php',"blog");
 ?>

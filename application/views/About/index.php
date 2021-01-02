@@ -1,5 +1,5 @@
 <?php
-    $this->load->view('Home/Layout/header.php',"about");
+    $this->load->view('Layout/header.php',"about");
 ?>
 <div id="body">
     <div>
@@ -16,5 +16,5 @@
     </div>
 </div>
 <?php
-    $this->load->view('Home/Layout/footer.php',"about");
+    $this->load->view('Layout/footer.php',"about");
 ?>

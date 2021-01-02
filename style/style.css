@@ -30,15 +30,14 @@ img {
 }
 #header div {
 	margin: 0 auto;
-    max-width: 940px;
-    min-height: 227px;
+    min-height: 129px;
     padding: 0 10px;
 }
 #header div a.logo {
 	display: block;
     float: left;
     height: 106px;
-    margin: 44px 0 0;
+    margin: 10px 0 0;
     padding: 0;
     width: 320px;
 }
@@ -54,7 +53,7 @@ img {
     list-style: none outside none;
     margin: 0 auto;
     max-width: auto;
-    padding: 102px 0 20px;
+    padding: 55px 0 20px;
     text-align: center;
 }
 #header div ul li {
@@ -107,8 +106,8 @@ img {
 }
 #body.home div.header div {
 	background: none;
-	margin: 0 auto;
-	max-width: 960px;
+	/* margin: 0 auto;
+	max-width: 960px; */
 	padding: 74px 0 0;
 }
 #body.home div.header div h1 {
@@ -119,8 +118,8 @@ img {
 	font-size: 110px;
 	font-weight: normal;
 	line-height: 96px;
-	margin: 0 auto 32px;
-	padding: 0;
+	/* margin: 0 auto 32px;
+	padding: 0; */
 	text-align: center;
 	text-transform: uppercase;
 	width: 89.5833%;
@@ -267,9 +266,10 @@ img {
 }
 #body div img {
 	display: block;
-	margin: 68px auto 47px;
-	padding: 0;
-	width: auto;
+    margin: 68px auto 47px;
+    padding: 0;
+    /* width: 50px; */
+    /* height: 50px;*/
 }
 #body.runningsinglepost div img {
 	display: block;
@@ -546,7 +546,7 @@ img {
 	padding: 36px 0 0;
 	width: 503px;
 }
-#body.contact div form input {
+#body.contact div form input, select {
 	background: none;
 	border: 2px solid #FFFFFF;
 	color: #FFFFFF;
@@ -562,6 +562,7 @@ img {
 	text-transform: uppercase;
 	width: 491px;
 }
+
 #body.contact div form textarea {
 	background: none;
 	border: 2px solid #FFFFFF;
@@ -580,6 +581,15 @@ img {
 	text-transform: uppercase;
 	width: 491px;
 }
+
+select{
+	width: 100% !important;
+}
+
+select option{
+	color: black;
+}
+
 #body.contact div form input#submit {
 	background: none;
 	border: 2px solid #FFFFFF;
@@ -760,4 +770,46 @@ input[type=radio]
 {
 	color: lawngreen !important;
     font-size: 20px !important;
+}
+
+table a
+{
+	padding: 10px;
+	text-decoration: none;
+	border: solid;
+    border-width: 1px;
+    border-radius: 20px;
+    border-color: ivory;
+    color: white;
+    left: 10px;
+    position: relative;
+}
+
+table a:text{
+	margin: 10px;
+	padding: 10px;
+}
+
+#body div.table {
+	background: transparent;
+	overflow-y: scroll;
+    max-height: 622px;
+}
+
+.country, .state, .city{
+	background: transparent !important;
+	padding: 15px 0 !important;
+}
+
+.login
+{
+	background: url(../images/bg-home.png) no-repeat center top !important;
+	width: 100% !important;
+	height: 100% !important;
+	border-top: unset !important;
+}
+
+.custom{
+	padding: 10% 35% !important;
+    max-width: 30% !important;
 }

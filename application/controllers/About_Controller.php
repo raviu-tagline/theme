@@ -1,18 +1,17 @@
 <?php
-    class Home_Controller extends CI_Controller
+    class About_Controller extends CI_Controller
     {
-        
-        public function __construct()
+        function __construct()
         {
             parent::__construct();
         }
-
+        
         public function index()
         {
            if(isset($_SESSION['userID']))
            {
-                $data['header'] ="Home";
-                $this->load->view('Home/index.php',$data);
+                $data['header'] ="about";
+                $this->load->view('About/index.php',$data);
            }
            else {
                $this->load->view('Login/index.php');
