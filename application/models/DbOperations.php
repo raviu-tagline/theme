@@ -6,9 +6,9 @@
             parent::__construct();
         }
 
-        public function insert($data)
+        public function insert($data, $tbl = 'tbl_data')
         {
-            if($this->db->insert("tbl_data", $data))
+            if($this->db->insert($tbl, $data))
             {
                 return TRUE;
             }
@@ -67,5 +67,7 @@
             // $result = $query->result();
             return $query->result();
         }
+
+        // public function updateField($id)
     }
 ?>

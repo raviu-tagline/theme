@@ -31,7 +31,7 @@
                 <span id="mobile-navigation">&nbsp;</span>
                 <a href="<?php echo base_url("home");?>" class="logo"><img src="<?php echo base_url()?>images/logo.png" alt=""></a>
                 <ul id="menu">
-                    <?php $class = isset($header) && $header == "Home" ? "selected" : "" ?>
+                    <?php $class = isset($header) && $header == "home" ? "selected" : "" ?>
                     <li class='<?php echo $class; ?>'>
                         <a href=" <?php echo base_url("home");?>">Home</a>
                     </li>
@@ -74,7 +74,7 @@
 
                     <?php $class = isset($header) && $header == "data" ? "selected" : "" ?>
                     <li class='<?php echo $class; ?>'>
-                        <a href=" <?php echo base_url("dashboard");?>">Data</a>
+                        <a href=" <?php echo base_url("data");?>">Data</a>
                     </li>
 
                     <?php $class = isset($header) && $header == 'login' ? 'selected' : "" ?>

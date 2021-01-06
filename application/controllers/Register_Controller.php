@@ -66,7 +66,8 @@
                     $data['header'] = 'data';
                 }
                 echo "Operations performed";
-                header('location:'.base_url('dashboard'));
+                // header('location:'.base_url('dashboard'));
+                $this->load->view("Dashboard/index.php");
             }
         }
 

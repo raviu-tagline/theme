@@ -70,7 +70,7 @@ $route['insert_data'] = "Register_Controller/insert_data";
 $route['update/:any'] = 'Register_Controller/update_data_view/$1';
 $route['update_data/:any'] = 'Register_Controller/update_data/$1';
 
-$route['dashboard'] = 'Dashboard_Controller';
+$route['data'] = 'Dashboard_Controller';
 $route['delete/:any'] = 'Dashboard_Controller/delete_data/$1';
 
 $route['login'] = 'Login_Controller';

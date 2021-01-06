@@ -8,14 +8,8 @@
         
         public function index()
         {
-            if($_SESSION['userID'])
-            {
-                $data['header'] ="blog";
-                $this->load->view('Blog/index.php',$data);
-            }
-            else {
-                $this->load->view('Login/index.php');
-            }
+            $data['header'] ="blog";
+            $this->load->view('Blog/index.php',$data);
         }
 
         public function blogsinglepost()

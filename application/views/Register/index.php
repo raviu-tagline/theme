@@ -144,7 +144,7 @@
     </div>
 <script>
     $(document).ready(function(){
-        // $('#ddlState').prop('disabled',TRUE);
+
         $("#ddlCountry").on('change', function() {
             var id = $(this).val();
             $.ajax({
@@ -152,7 +152,6 @@
                 method: 'post',
                 data: {id : id},
                 success: function (response){
-                    // $('#ddlState').prop('disabled',FALSE);
                     $('#ddlState').html(response);
                 },
                 error: function(){
@@ -168,11 +167,10 @@
                 method: 'post',
                 data: {id : id},
                 success: function (response){
-                    // $('#ddlState').prop('disabled',FALSE);
                     $('#ddlCity').html(response);
                 },
                 error: function(){
-                    console.log("Error :: ",id);
+                    alert("There is something wrong");
                 }
             });
         });

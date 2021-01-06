@@ -8,13 +8,16 @@
 
         public function index()
         {
-            
             unset($_SESSION['userID']);
             $data['header'] = 'login';
             $this->load->view('Login/index.php',$data);
         }
         public function authentication()
         {
+            if($_SESSION['userID'])
+            {
+                $this->load->view("Home/index.php");
+            }
             $this->form_validation->set_rules('userName','ID','trim|callback_authenticate_id');
             $this->form_validation->set_rules('userPass','Pass','trim|callback_authenticate_pass');
 
@@ -28,9 +31,10 @@
             else 
             {
                 $_SESSION['userID'] = $this->input->post('userName');
-                $data['header'] = "Dashboard";
-                redirect(base_url('dashboard'));
-                // $this->load->view("Dashboard/index.php",$data);
+                $data['header'] = "data";
+                redirect(base_url('home'));
+                $this->load->view("Dashboard/index.php",$data);
+                header("location:".base_url("data"));
             }
         }
 

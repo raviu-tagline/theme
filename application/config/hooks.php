@@ -9,5 +9,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | files.  Please see the user guide for info:
 |
 |	https://codeigniter.com/user_guide/general/hooks.html
+
+    post_controller_constructor
 |
 */
+$hook['post_controller_constructor'] = array(
+    'class' => 'Validate',
+    'function' => 'validate_user',
+    'filename' => 'validate.php',
+    'filepath' => 'hooks'
+);
