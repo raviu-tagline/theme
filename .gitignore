@@ -35,3 +35,5 @@ composer.json
 contributing.md
 license.txt
 user_guide/
+application/logs/
+images/uploads/

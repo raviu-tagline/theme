@@ -813,3 +813,39 @@ table a:text{
 	padding: 10% 35% !important;
     max-width: 30% !important;
 }
+
+.status{
+	background: transparent !important;
+	padding: 10px 0 4px !important
+}
+
+.status button{
+	background: transparent !important;
+	padding: 10px;
+    text-decoration: none;
+    border: solid;
+    border-width: 1px;
+    border-radius: 20px;
+    border-color: ivory;
+    color: white;
+    left: 10px;
+    position: relative;
+}
+
+#chk {
+	display: inline-flex !important;
+    background: transparent !important;
+    color: white;
+    padding: 13px 15px !important;
+    font-family: Arial;
+	font-size: normal;
+	text-transform: uppercase;
+}
+
+#chk input[type="checkbox"]{
+	width: 70px !important;
+}
+
+p p{
+	color: red !important;
+}
