@@ -55,7 +55,7 @@
 			<input type="file" id="imgUpload" name='imgUpload' accept='image/*'/>
 			<p id="img_err"></p>
 
-			<button type="submit">Submit</button>
+			<button type="submit" id='submit'>Submit</button>
 			<!-- <input type="button" name="submit" id="submit" value="Submit"/> -->
 		</form>
 	</div>

@@ -49,5 +49,48 @@
             
             $this->output->set_output($tmp);
         }
+
+        public function filterData()
+        {
+            $name = isset($_REQUEST['name']) ? $_REQUEST['name'] : '';
+            $email = isset($_REQUEST['email']) ? $_REQUEST['email'] : '';
+            $gender = isset($_REQUEST['gender']) ? $_REQUEST['gender'] : '';
+            $number = isset($_REQUEST['number']) ? $_REQUEST['number'] : '';
+            $address = isset($_REQUEST['address']) ? $_REQUEST['address'] : '';
+            $status = isset($_REQUEST['status']) ? $_REQUEST['status'] : '';
+
+            $where = " where";
+
+            if($name != '')
+            {
+                $where .= " reg_name = '$name' and";
+            }
+            if($email != '')
+            {
+                $where .= " reg_email = '$email' and";
+            }
+            if($gender != '')
+            {
+                $where .= " reg_gender = '$gender' and";
+            }
+            if($number != '')
+            {
+                $where .= " reg_mobile = '$number' and";
+            }
+            if($address != '')
+            {
+                $where .= " reg_address = '$address' and";
+            }
+            if($status != '')
+            {
+                $where .= " reg_status = '$status' and";
+            }
+            
+            $where = rtrim($where, ' and');
+
+            $data = array('records' => $this->DbOperations->getByCondition($where));
+
+            $this->load->view('Dashboard/getFilterData.php',$data);
+        }
     }
 ?>

@@ -245,7 +245,7 @@ img {
 #body div {
 	background: url(../images/bg-transparent2.png) repeat;
 	margin: 0 auto;
-	max-width: 960px;
+	max-width: 100%;
 	overflow: hidden;
 	padding: 58px 0 4px;
 }
@@ -266,7 +266,7 @@ img {
 }
 #body div img {
 	display: block;
-    margin: 68px auto 47px;
+    /* margin: 68px auto 47px; */
     padding: 0;
     /* width: 50px; */
     /* height: 50px;*/
@@ -563,6 +563,51 @@ img {
 	width: 491px;
 }
 
+
+#submit {
+	background: none;
+    border: 2px solid #FFFFFF;
+    color: #FFFFFF;
+    display: block;
+    font-family: Arial;
+    font-size: 18px;
+    font-weight: normal;
+    height: 39px;
+    line-height: 43px;
+    margin: 5px;
+    padding: 0 4px;
+    text-align: center;
+    text-transform: uppercase;
+	width: -webkit-fill-available !important;
+}
+
+
+input[type='search'] {
+	background: none;
+    border: 2px solid #FFFFFF;
+    color: #FFFFFF;
+    display: block;
+    font-family: Arial;
+    font-size: 18px;
+    font-weight: normal;
+    height: 39px;
+    line-height: 43px;
+    margin: 5px;
+    padding: 0 4px;
+    text-align: center;
+    text-transform: uppercase;
+    width: 200px;
+}
+
+td {
+	text-transform: uppercase !important;
+}
+
+#ddlgen {
+	margin: 0px !important;
+	width: auto !important;
+}
+
 #body.contact div form textarea {
 	background: none;
 	border: 2px solid #FFFFFF;
@@ -848,4 +893,8 @@ table a:text{
 
 p p{
 	color: red !important;
+}
+
+#sub{
+	text-transform: inherit;
 }

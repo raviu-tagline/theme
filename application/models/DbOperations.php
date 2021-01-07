@@ -53,7 +53,14 @@
         {
             $str = 'select * from '.$tbl." ".$where;
             $query = $this->db->query($str);
-            return $query->result();
+            if($query->result())
+            {
+                return $query->result();
+            }
+            else
+            {
+                return False;
+            }
         }
 
         public function getField($field, $tbl = 'tbl_data')
