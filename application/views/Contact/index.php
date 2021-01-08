@@ -102,7 +102,6 @@
 					}
 					else
 					{
-						console.log('asdfsdfasdf :::::: ');
 						$("#msg").html("<p style='color: green; margin: 0 auto; font-size: inherit'>"+tmp.values+"</p>");
 						$('#name').val('');
 						$('#email').val('');

@@ -10,16 +10,14 @@
 </style>
 <?php
 
+    $id = $this->uri->segment('2');
     $tmpArr = array();
 
-    if(isset($records))
+    if(isset($records) && $id != NULL)
     {
-        foreach($records as $array)
+        foreach($records as $key => $val)
         {
-            foreach($array as $key => $val)
-            {
-                $tmpArr[$key] = $val;
-            }
+            $tmpArr[$key] = $val;
         }
     }
     else
@@ -48,9 +46,10 @@
         <?php $data = array('enctype' => 'multipart/form-data'); ?>
 
         <?php 
-            if(isset($tmpArr))
+        
+            
+            if(isset($tmpArr) && $id != NULL)
             {
-                $id = $this->uri->segment('2');
                 // $id = $this->encryption->encrypt($id);
                 echo form_open(base_url('update_data/').$id,$data);
             }
@@ -105,17 +104,11 @@
             <select name="ddlCountry" id="ddlCountry">
                 <option disabled selected>Select Country</option>
                   <?php
-                        foreach($info as $tmp)
-                        {
-                            foreach($tmp as $k => $v)
-                            {
-                                if($k == "country_id")
-                                {?>
-                                    <option value="<?php echo $v;?>"><?php }else{echo $v."</option>";
-                                }
-                            }
-                        }
-                ?>
+                        foreach($country as $key => $val)
+                        {?>
+                            <option value="<?php echo $val['country_id'];?>" <?php echo (set_value('ddlCountry') == $val['country_id']) ? "selected" : (
+                                isset($tmpArr['country_id']) && $tmpArr['country_id'] == $val['country_id'] ? "selected" : '');?> ><?php echo $val['country_name'];?></option>      
+                <?php   }?>
             </select>
         </div>
 
@@ -137,45 +130,37 @@
         
         <input type="file" id="imgUpload" name='imgUpload' accept='image/*' required/>
 
+        <select name='ddlStatus' id='ddlStatus'>
+            <option selected disabled>Select Status</option>
+            <?php
+                foreach($status as $key => $val)
+                {?>
+                    <option value="<?php echo $val['status_id'];?>" <?php echo (set_value('ddlStatus') == $val['status_id']) ? "selected" : (
+                                isset($tmpArr['status_id']) && $tmpArr['status_id'] == $val['status_id'] ? "selected" : '');?>><?php echo $val['status_name'];?></option>      
+        <?php   }?>
+        </select>
+
         <input id='submit' value='submit' type='submit'/>
         
         </form>
         
     </div>
-<script>
-    $(document).ready(function(){
 
-        $("#ddlCountry").on('change', function() {
-            var id = $(this).val();
-            $.ajax({
-                url: '<?php echo base_url();?>Register_Controller/getState',
-                method: 'post',
-                data: {id : id},
-                success: function (response){
-                    $('#ddlState').html(response);
-                },
-                error: function(){
-                    console.log("Error :: ",id);
-                }
-            });
-        });
+    <?php
+/*
+    <script>
+        $(document).ready(function (){
+            $('form').on('submit',function (e){
+                e.preventDefault();
+                var fdata = new FormData(this);
 
-        $("#ddlState").on('change', function() {
-            var id = $(this).val();
-            $.ajax({
-                url: '<?php echo base_url();?>Register_Controller/getCity',
-                method: 'post',
-                data: {id : id},
-                success: function (response){
-                    $('#ddlCity').html(response);
-                },
-                error: function(){
-                    alert("There is something wrong");
-                }
+                $.ajax({
+                    url: "<?php echo base_url('insert_data')?>",
+                });
             });
-        });
-    })
-</script>
+        })
+    </script>*/
+        ?>
 
 <?php
     $this->load->view('Layout/sub_footer.php');

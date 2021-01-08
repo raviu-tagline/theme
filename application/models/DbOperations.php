@@ -14,10 +14,11 @@
             }
         }
 
-        public function select($tbl = "tbl_data",$where = 'WHERE 1')
+        public function select($tbl = "tbl_data",$where = array())
         {
+            $this->db->where($where);
             $query = $this->db->get($tbl);
-            return $query->result();
+            return $query->result_array();
         }
 
         public function update($id, $data, $tbl = 'tbl_data')
@@ -46,13 +47,22 @@
         public function getById($id,$tbl = "tbl_data")
         {
             $query = $this->db->get_where($tbl, array('reg_id' => $id));
-            return $query->result();
+            return $query->row();
         }
 
-        public function getByCondition($where = '', $tbl = 'tbl_data')
+        public function getByCondition($where, $tbl = 'tbl_data')
         {
-            $str = 'select * from '.$tbl." ".$where;
+
+            $str = 'select * from '.$tbl." where ";
+            foreach($where as $key => $val)
+            {
+                $str .= " $key = $val and";
+            }
+
+            $str = trim($str, ' and');
+            
             $query = $this->db->query($str);
+
             if($query->result())
             {
                 return $query->result();
@@ -63,18 +73,70 @@
             }
         }
 
-        public function getField($field, $tbl = 'tbl_data')
+        public function getFieldsByCondition($field = array(), $tbl = 'tbl_data',$where = array())
         {
-            if($field == '')
+            $flds = '';
+            $cnd = '';
+            $str = '';
+
+            if(!empty($field))
             {
-                $field = '*';
+                foreach($field as $key => $val)
+                {
+                    $flds .= "$val, ";
+                }
             }
-            $str = "select $field from $tbl";
+
+            if(!empty($where))
+            {
+                $cnd = ' where';
+                foreach($where as $key => $val)
+                {
+                    $cnd .= " $key = '$val' and";
+                }
+
+                $cnd = rtrim($cnd, 'and');
+            }
+
+            $flds = rtrim($flds, ', ');
+
+            $str = "select $flds from $tbl $cnd";
             $query = $this->db->query($str);
-            // $result = $query->result();
-            return $query->result();
+
+            return $query->result_array();
         }
 
-        // public function updateField($id)
+        public function getJoinData($field = array(), $tbl = 'tbl_data', $join = array(), $where = array(), $order = array())
+        {
+            $flds = '';
+
+            if(!empty($field))
+            {
+                foreach($field as $key => $val)
+                {
+                    $flds .= "$val, ";
+                }
+            }
+
+            foreach($order as $key => $val)
+            {
+                $col_name = $key;
+                $order_by = $val;
+            }
+
+            $flds = rtrim($flds, ', ');
+            $this->db->select("$flds");
+            $this->db->from("$tbl as td");
+
+            $this->db->join($join[0]." as td0","td.country_id = td0.country_id");
+            $this->db->join($join[1]." as td1","td.state_id = td1.state_id");
+            $this->db->join($join[2]." as td2","td.city_id = td2.city_id");
+            $this->db->join($join[3]." as td3","td.status_id = td3.status_id");
+            $this->db->where($where);
+            $this->db->order_by($col_name, $order_by);
+            
+            $result = $this->db->get();
+            return $result->result_array();
+        }
     }
 ?>

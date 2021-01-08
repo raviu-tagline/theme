@@ -563,8 +563,14 @@ img {
 	width: 491px;
 }
 
+table tr td{
+	
+	white-space: nowrap;
+	padding: 10px 0 !important;
+	width: max-content !important;
+}
 
-#submit {
+#submit, #addRecords {
 	background: none;
     border: 2px solid #FFFFFF;
     color: #FFFFFF;
@@ -603,8 +609,8 @@ td {
 	text-transform: uppercase !important;
 }
 
-#ddlgen {
-	margin: 0px !important;
+#ddlgen, td select#ddlCountry,td select#ddlState,td select#ddlCity,td select#ddlstatus {
+	margin: 5px !important;
 	width: auto !important;
 }
 
@@ -628,7 +634,7 @@ td {
 }
 
 select{
-	width: 100% !important;
+	width: 503px !important;
 }
 
 select option{
@@ -826,7 +832,7 @@ table a
     border-radius: 20px;
     border-color: ivory;
     color: white;
-    left: 10px;
+    /* left: 10px; */
     position: relative;
 }
 
@@ -836,9 +842,10 @@ table a:text{
 }
 
 #body div.table {
+	overflow: scroll !important;
 	background: transparent;
-	overflow-y: scroll;
-    max-height: 622px;
+	max-height: 622px;
+	max-width: 100%;
 }
 
 .country, .state, .city{
