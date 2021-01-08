@@ -35,7 +35,11 @@
             $this->form_validation->set_rules('userCPass',  'Confirm Paasword', 'trim|matches[userPass]',   array(   'matches'=>'The %s not match'    )  );
             $this->form_validation->set_rules('mobile',  'Mobile Number',  'trim|regex_match[/^[6-9][0-9]{9}$/]',
                 array( 'regex_match'=>'Check Your %s'   )  );
+
             
+            $this->form_validation->set_rules('ddlCountry','Country','required',array('required' => 'Must select %s'));
+            $this->form_validation->set_rules('ddlState','State','required',array('required' => 'Must select %s'));
+            $this->form_validation->set_rules('ddlCity','City','required',array('required' => 'Must select %s'));
             $this->form_validation->set_error_delimiters('<p class="error">','</p>');
 
             $data = array();
@@ -139,20 +143,40 @@
         {
             $id = $this->uri->segment('2');
             
-            $info =  $this->DbOperations->select('tbl_country');
+            // $info =  $this->DbOperations->select('tbl_country');
 
             // $id = $this->encryption->decrypt($id);
             // echo "<p>{$id}</p>";
 
             // $where = array('reg_id' => $id);
-            $result = $this->DbOperations->getById($id);
+
+            $where = array('reg_id' => $id);
+            $result = $this->DbOperations->getById($id,'tbl_data',$where);
+
+            $data['state'] = $this->findState($result['country_id']);
+
+            $data['city'] = $this->findCity($result['state_id']);
 
             $data = $this->init();
 
-            $data['info'] = $info;
+            // $data['info'] = $info;
             $data['records'] = $result;
             $data['id'] = $id;
             $this->load->view('Register/index.php',$data);
+        }
+
+        function findState($country_id)
+        {
+            $where = array('country_id' => $country_id);
+            $state = $this->DbOperations->getById($country_id, 'tbl_state',$where);
+            return $state;
+        }
+
+        function findCity($state_id)
+        {
+            $where = array('state_id' => $state_id);
+            $city = $this->DbOperations->getById($state_id, 'tbl_city',$where);
+            return $city;
         }
 
         public function update_data()

@@ -44,10 +44,10 @@
             }
         }
 
-        public function getById($id,$tbl = "tbl_data")
+        public function getById($id,$tbl = "tbl_data", $where)
         {
-            $query = $this->db->get_where($tbl, array('reg_id' => $id));
-            return $query->row();
+            $query = $this->db->get_where($tbl, $where);
+            return $query->row_array();
         }
 
         public function getByCondition($where, $tbl = 'tbl_data')

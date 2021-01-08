@@ -115,12 +115,32 @@
         <div class="state">
             <select name="ddlState" id="ddlState">
                 <option disabled selected>Select State</option>
+                <?php
+                        if(isset($state))
+                        {
+                            foreach($state as $key => $val)
+                                {?>
+                                    <option value="<?php echo $val['state_id'];?>" <?php echo (set_value('ddlState') == $val['state_id']) ? "selected" : ( 
+                                        isset($tmpArr['state_id']) && $tmpArr['state_id'] == $val['state_id'] ? "selected" : '');?> ><?php echo $val['state_name'];?></option>      
+                         <?php   }?>
+                <?php   }
+                        ?>
             </select>
         </div>
 
         <div class="city">
             <select name="ddlCity" id="ddlCity">
                 <option disabled selected>Select City</option>
+                <?php
+                        if(isset($city))
+                        {
+                            foreach($city as $key => $val)
+                                {?>
+                                    <option value="<?php echo $val['city_id'];?>" <?php echo (set_value('ddlCity') == $val['city_id']) ? "selected" : ( 
+                                        isset($tmpArr['city_id']) && $tmpArr['city_id'] == $val['city_id'] ? "selected" : '');?> ><?php echo $val['city_name'];?></option>      
+                         <?php   }?>
+                <?php   }
+                        ?>
             </select>
         </div>
         

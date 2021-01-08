@@ -98,7 +98,6 @@
 						$.each(tmp, function(index, value){
 							$('#'+index).html(value);
 						})
-						// $('body').find('#msg').html(tmp.errors);
 					}
 					else
 					{
