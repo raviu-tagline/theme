@@ -245,7 +245,7 @@ img {
 #body div {
 	background: url(../images/bg-transparent2.png) repeat;
 	margin: 0 auto;
-	max-width: 960px;
+	max-width: 100%;
 	overflow: hidden;
 	padding: 58px 0 4px;
 }
@@ -266,7 +266,7 @@ img {
 }
 #body div img {
 	display: block;
-    margin: 68px auto 47px;
+    /* margin: 68px auto 47px; */
     padding: 0;
     /* width: 50px; */
     /* height: 50px;*/
@@ -563,6 +563,57 @@ img {
 	width: 491px;
 }
 
+table tr td{
+	
+	white-space: nowrap;
+	padding: 10px 0 !important;
+	width: max-content !important;
+}
+
+#submit, #addRecords {
+	background: none;
+    border: 2px solid #FFFFFF;
+    color: #FFFFFF;
+    display: block;
+    font-family: Arial;
+    font-size: 18px;
+    font-weight: normal;
+    height: 39px;
+    line-height: 43px;
+    margin: 5px;
+    padding: 0 4px;
+    text-align: center;
+    text-transform: uppercase;
+	width: -webkit-fill-available !important;
+}
+
+
+input[type='search'] {
+	background: none;
+    border: 2px solid #FFFFFF;
+    color: #FFFFFF;
+    display: block;
+    font-family: Arial;
+    font-size: 18px;
+    font-weight: normal;
+    height: 39px;
+    line-height: 43px;
+    margin: 5px;
+    padding: 0 4px;
+    text-align: center;
+    text-transform: uppercase;
+    width: 200px;
+}
+
+td {
+	text-transform: uppercase !important;
+}
+
+#ddlgen, td select#ddlCountry,td select#ddlState,td select#ddlCity,td select#ddlstatus {
+	margin: 5px !important;
+	width: auto !important;
+}
+
 #body.contact div form textarea {
 	background: none;
 	border: 2px solid #FFFFFF;
@@ -583,7 +634,7 @@ img {
 }
 
 select{
-	width: 100% !important;
+	width: 503px !important;
 }
 
 select option{
@@ -781,7 +832,7 @@ table a
     border-radius: 20px;
     border-color: ivory;
     color: white;
-    left: 10px;
+    /* left: 10px; */
     position: relative;
 }
 
@@ -791,9 +842,10 @@ table a:text{
 }
 
 #body div.table {
+	overflow: scroll !important;
 	background: transparent;
-	overflow-y: scroll;
-    max-height: 622px;
+	max-height: 622px;
+	max-width: 100%;
 }
 
 .country, .state, .city{
@@ -812,4 +864,44 @@ table a:text{
 .custom{
 	padding: 10% 35% !important;
     max-width: 30% !important;
+}
+
+.status{
+	background: transparent !important;
+	padding: 10px 0 4px !important
+}
+
+.status button{
+	background: transparent !important;
+	padding: 10px;
+    text-decoration: none;
+    border: solid;
+    border-width: 1px;
+    border-radius: 20px;
+    border-color: ivory;
+    color: white;
+    left: 10px;
+    position: relative;
+}
+
+#chk {
+	display: inline-flex !important;
+    background: transparent !important;
+    color: white;
+    padding: 13px 15px !important;
+    font-family: Arial;
+	font-size: normal;
+	text-transform: uppercase;
+}
+
+#chk input[type="checkbox"]{
+	width: 70px !important;
+}
+
+p p{
+	color: red !important;
+}
+
+#sub{
+	text-transform: inherit;
 }

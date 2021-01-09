@@ -11,7 +11,7 @@
         <?php echo form_open(base_url('authenticate'));?>
             <input type="text" name="userName" id="userName" placeholder="Enter username / mobile number" value="<?php echo set_value('userName')?>" />
             <input type="password" name="userPass" id="userPass" placeholder="Enter password" value="<?php //echo set_value('userName')?>" />
-            <input type="submit" name="submit" value="Submit" />
+            <input type="submit" id='submit' name="submit" value="Submit" />
             <a href="<?php echo base_url("register")?>" >Create account ?</a>
         </form>
     </div>

@@ -8,40 +8,54 @@
 
         public function index()
         {
-            
-            unset($_SESSION['userID']);
-            $data['header'] = 'login';
-            $this->load->view('Login/index.php',$data);
+            $_SESSION['userID'] = NULL;
+            // $data['header'] = 'login';
+            $this->load->view('Login/index.php');
         }
         public function authentication()
         {
-            $this->form_validation->set_rules('userName','ID','trim|callback_authenticate_id');
-            $this->form_validation->set_rules('userPass','Pass','trim|callback_authenticate_pass');
+            echo $this->input->post('userName');
+            echo "<br>".$this->input->post('userPass')."<br>";
+            // die;
+            $this->form_validation->set_rules('userName','User Name','trim|required', array('required' => '%s is required'));
+            $this->form_validation->set_rules('userPass','Password','trim|required', array('required' => '%s is required'));
 
             $this->form_validation->set_error_delimiters('<p class="error">','</p>');
             
             if($this->form_validation->run() == FALSE)
             {
-                $data['header'] = 'login';
-                $this->load->view("Login/index.php",$data);
+                echo "Validate";
+                die;
+                // $data['header'] = 'login';
+                $this->load->view("Login/index.php");
             }
             else 
             {
+                echo "Invalid";
+                // die;//
                 $_SESSION['userID'] = $this->input->post('userName');
-                $data['header'] = "Dashboard";
-                redirect(base_url('dashboard'));
-                // $this->load->view("Dashboard/index.php",$data);
+                $data['header'] = "data";
+                redirect(base_url('home'));
+                $this->load->view("Dashboard/index.php",$data);
+                header("location:".base_url("data"));
+            }
+
+            if($_SESSION['userID'])
+            {
+                $this->load->view("Home/index.php");
             }
         }
 
-        public function authenticate_id($str = '')
+        /*public function authenticate_id($str = '')
         {
+            echo "Authenticate ID::";
+            die;
             if(!is_numeric($str))
             {
-                $where = " where reg_email = '$str'"; // and reg_pass = '$pass'
+                $where = array('reg_email' => "'$str'"); // and reg_pass = '$pass'
             }
             else {
-                $where = " where reg_mobile = '$userName'"; //and reg_pass = '$pass'
+                $where = array('reg_mobile' => "'$userName'"); //and reg_pass = '$pass'
             }
 
             $result = $this->DbOperations->getByCondition($where);
@@ -62,7 +76,9 @@
 
         public function authenticate_pass($str = '')
         {
-            $where = " where reg_pass = '$str'";
+            echo "Authenticate Pass::";
+            die;
+            $where['reg_pass'] = "'$str'";
             $result = $this->DbOperations->getByCondition($where);
 
             if(isset($result))
@@ -71,9 +87,9 @@
             }
             else 
             {
-                $this->form_validation->set_message('authenticate_pass','Invalid Password');
+                $this->form_validation->set_message('authenticate_pass','Invalid User ID / Password');
                 return FALSE;
             }
-        }
+        }*/
     }
 ?>

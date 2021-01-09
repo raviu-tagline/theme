@@ -5,48 +5,71 @@
         function __construct()
         {
             parent::__construct();
-            $this->load->library('session');
+            // $this->load->view('Register/index.php');
+            // $this->load->library('session');
         }
         
+        public function init()
+        {
+            $country =  $this->DbOperations->select('tbl_country');
+            $status = $this->DbOperations->select('tbl_status');
+
+            $data['header'] = 'register';
+            $data['country'] = $country;
+            $data['status'] = $status;
+            return $data;
+        }
+
         public function index()
         {
-            $result =  $this->DbOperations->select('tbl_country');
-            $data = array("header" => 'register','info' => $result);
+            $data = $this->init();
             $this->load->view('Register/index.php',$data);
         }
 
         public function insert_data($id = '', $data = '')
         {
-            
-            /*if($id != '' && $id != NULL && is_numeric($id))
-            {
-                echo "Id ::: ".$id." data :::: ".$data;
-                // $id = $this->encryption->decode($id);
-            }*/
-           
             $this->form_validation->set_rules('fullName', 'Name', 'trim|regex_match[/^[a-zA-Z]+/]', array('regex_match' => 'Your %s contains other then alphabets'));
 
             $this->form_validation->set_rules('userMail','Email',"trim|callback_exist_check");
-            $this->form_validation->set_rules('userPass', 'Password',   'trim'   );
+            $this->form_validation->set_rules('userPass', 'Password',   'trim|min_length[8]', array('min_length' => '%s length must be 8 characters or above'));
             $this->form_validation->set_rules('userCPass',  'Confirm Paasword', 'trim|matches[userPass]',   array(   'matches'=>'The %s not match'    )  );
             $this->form_validation->set_rules('mobile',  'Mobile Number',  'trim|regex_match[/^[6-9][0-9]{9}$/]',
                 array( 'regex_match'=>'Check Your %s'   )  );
+
             
+            $this->form_validation->set_rules('ddlCountry','Country','required',array('required' => 'Must select %s'));
+            $this->form_validation->set_rules('ddlState','State','required',array('required' => 'Must select %s'));
+            $this->form_validation->set_rules('ddlCity','City','required',array('required' => 'Must select %s'));
             $this->form_validation->set_error_delimiters('<p class="error">','</p>');
 
             $data = array();
-
+            $data = $this->init();
             if($this->form_validation->run() == FALSE)
             {
                 $data['header'] = "register";
-                if($id != '' && $id != NULL &&  is_numeric($id))
+                if(!empty($id) && is_numeric($id))
                 {
-                    $record = $this->DbOperations->getById($id);
-                    $data['records'] = $record;
+                    // $record = $this->DbOperations->getById($id);
+                    // $data['records'] = $record;
+                    echo "hey";
+                    $data['records'] = $this->DbOperations->getById($id);
+                    var_dump($data['records']);
                 }
                 else
                 {
+                    $country_id = $this->input->post('ddlCountry');
                     $data['records'] = '';
+                    $data['state'] = $this->findState($country_id);
+                    if(!empty($this->input->post('ddlState')))
+                    {
+                        $state_id = $this->input->post('ddlState');
+                        $data['city'] = $this->findCity($state_id);
+                    }
+                    else
+                    {
+                        var_dump($state);
+                    }
+                    // $data['city'] = $this->findCity();
                 }
                 $this->load->view("Register/index.php",$data);
             }
@@ -56,7 +79,7 @@
 
                 if($id == '' || $id == NULL)
                 {
-                    $this->DbOperations->insert($data);
+                    $this->DbOperations->insert($data['records']);
                     $this->session->set_flashdata('suc_message','Data Inserted');
                 }
                 else
@@ -65,8 +88,9 @@
                     $this->session->set_flashdata('suc_message','Data Updated');
                     $data['header'] = 'data';
                 }
-                echo "Operations performed";
-                header('location:'.base_url('dashboard'));
+                // echo "Operations performed";
+                header('location:'.base_url('data'));
+                // $this->load->view("Dashboard/index.php",$data);
             }
         }
 
@@ -78,10 +102,11 @@
             {
                 //Code for validate email at time of insert.
 
-                $where = ' where reg_email = '."'$str'";
+                $where = array('reg_email' => "'$str'");
                 $result = $this->DbOperations->getByCondition($where);
+                $data['result'] = $result;
 
-                if(isset($result))
+                if($result !== FALSE)
                 {
                     $this->form_validation->set_message('exist_check','{field} already exist');
                     return FALSE;
@@ -95,7 +120,7 @@
             {
                 //Code for validate email at time of update.
 
-                $where = ' where reg_email = '."'$str' and reg_id = $id";
+                $where = array('reg_email' => "'$str'", 'reg_id' => $id);
                 $result = $this->DbOperations->getByCondition($where);
 
                 if( ! empty($result))
@@ -130,13 +155,40 @@
         public function update_data_view()
         {
             $id = $this->uri->segment('2');
+            
+            // $info =  $this->DbOperations->select('tbl_country');
+
             // $id = $this->encryption->decrypt($id);
             // echo "<p>{$id}</p>";
-            $result = $this->DbOperations->getById($id);
+
+            // $where = array('reg_id' => $id);
+
+            $where = array('reg_id' => $id);
+            $result = $this->DbOperations->getById($id,'tbl_data',$where);
+
+            $data = $this->init();
+
+            // $data['info'] = $info;
             $data['records'] = $result;
-            $data['header'] = 'register';
             $data['id'] = $id;
+            
+            $data['state'] = $this->findState($result['country_id']);
+            $data['city'] = $this->findCity($result['state_id']);
             $this->load->view('Register/index.php',$data);
+        }
+
+        function findState($country_id)
+        {
+            $where = array('country_id' => $country_id);
+            $state = $this->DbOperations->getByCondition($where, 'tbl_state');
+            return $state;
+        }
+
+        function findCity($state_id)
+        {
+            $where = array('state_id' => $state_id);
+            $city = $this->DbOperations->getByCondition($where, 'tbl_city');
+            return $city;
         }
 
         public function update_data()
@@ -150,13 +202,6 @@
 
         private function data()
         {
-            // $this->form_validation->set_rules('userMail','Email','trim|valid_email|is_unique[tbl_data.reg_email]',array('is_unique'=>'This %s already exist'));
-            // $this->form_validation->set_rules('userPass', 'Password',   'trim'   );
-            // $this->form_validation->set_rules('userCPass',  'Confirm Paasword', 'trim|matches[userPass]',   array(   'matches'=>'The %s not match'    )  );
-            // $this->form_validation->set_rules('mobile',  'Mobile Number',  'trim|regex_match[/^[6-9][0-9]{9}$/]|is_unique[tbl_data.reg_mobile]',
-            //     array( 'regex_match'=>'Check Your %s',  'is_unique' => 'The %s is already exist'   )  );
-            // $this->form_validation->set_error_delimiters('<p class="error">','</p>');
-
             $name = $this->input->post('fullName');
             $num = $this->input->post('mobile');
             $pass = $this->input->post('userPass');
@@ -165,29 +210,29 @@
             $mail = $this->input->post('userMail');
             $gen = $this->input->post('gender');
             $date = $this->input->post('userBirthDate');
+            $cntry = $this->input->post('ddlCountry');
+            $stat = $this->input->post('ddlState');
+            $ct = $this->input->post('ddlCity');
+            $st = $this->input->post('ddlStatus');
             
             $file = $this->get_image_data();
-            if($name && $num && $pass && $bdate && $add && $mail && $gen && $date && $file != FALSE)
-            {
-                $tmpArray = array(
-                    'reg_name' => $name, 
-                    'reg_email' => $mail, 
-                    'reg_pass' => $pass, 
-                    'reg_gender' => $gen, 
-                    'reg_birth_date' => $date, 
-                    'reg_mobile' => $num,
-                    'reg_address' => $add,
-                    'reg_image' => $file['upload_data']['file_name']
-                );
 
-                return $tmpArray;
-            }
-            else
-            {
-                echo "<pre>";
-                echo $name." ".$num." ".$pass." ".$bdate." ".$add." ".$mail." ".$gen." ".$date." ".$file;
-                echo "</pre>";
-            }
+            $tmpArray = array(
+                'reg_name' => $name, 
+                'reg_email' => $mail, 
+                'reg_pass' => $pass, 
+                'reg_gender' => $gen, 
+                'reg_birth_date' => $date, 
+                'reg_mobile' => $num,
+                'country_id' => $cntry,
+                'state_id' => $stat,
+                'city_id' => $ct,
+                'reg_address' => $add,
+                'reg_image' => $file['upload_data']['file_name'],
+                'status_id' => $st
+            );
+
+            return $tmpArray;
         }
 
         private function get_image_data()
@@ -212,20 +257,33 @@
             }
         }
 
-        public function getState($cid = '')
+        public function getState($id = '')
         {
-            $id = $_REQUEST['id'];
-            $where = " where country_id = $id";
-            $data = array('info' => $this->DbOperations->getByCondition($where, 'tbl_state'));
-            return $this->load->view('Register/getState.php',$data);
+            if($id == '')
+            {
+                $id = $_REQUEST['id'];
+            }
+            // $where = " where country_id = $id";
+            $where = array('country_id'=> $id);
+            $fields = array('state_id','state_name');
+           
+            $data['info'] = $this->DbOperations->getFieldsByCondition($fields, 'tbl_state', $where);
+
+            $this->load->view('Register/getState.php',$data);
         }
 
-        public function getCity($sid = '')
+        public function getCity($id = '')
         {
-            $id = $_REQUEST['id'];
-            $where = " where state_id = $id";
-            $data = array('info' => $this->DbOperations->getByCondition($where, 'tbl_city'));
-            return $this->load->view('Register/getCity.php',$data);
+            if($id == '')
+            {
+                $id = $_REQUEST['id'];
+            }
+            // $where = " where state_id = $id";
+            $where = array('state_id' => $id);
+            $fields = array('city_id','city_name');
+
+            $data = array('info' => $this->DbOperations->getFieldsByCondition($fields, 'tbl_city', $where));
+            $this->load->view('Register/getCity.php',$data);
         }
     }
 ?>
