@@ -37,13 +37,18 @@
         
         public function delete_data()
         {
-            $id = $this->uri->segment('2');
+            $id = $_REQUEST['id'];
             // $id = $this->encryption->decrypt($id);
-            $this->DbOperations->delete($id);
-            $data['header'] = "data";
-            $data['records'] = $this->DbOperations->select();
+            if($this->DbOperations->delete($id))
+            {
+                $data['header'] = "data";
+                $data['records'] = $this->DbOperations->select();
+            }
+            else{
+                return FALSE;
+            }
             // $this->load->view('Dashboard/index.php',$data);
-            redirect(base_url('data'));
+            // redirect(base_url('data'));
         }
 
         public function getStatus($id = '', $status = '')

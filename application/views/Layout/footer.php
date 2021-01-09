@@ -13,22 +13,6 @@
     <script>
     $(document).ready(function(){
 
-        console.log('hello');
-
-        console.log("Update id : ",$('#hdnUp_ID').val());
-        console.log("Error : ",$('#hdnErr').val());
-
-        // if($('#hdnUp_ID').val() != '' || $('#hdnErr').val() == true)
-        // {
-        //     $('#ddlState').attr('disabled',false);
-        //     $('#ddlCity').attr('disabled',false);
-        // }
-        // else
-        // {
-        //     $('#ddlState').attr('disabled',true);
-        //     $('#ddlCity').attr('disabled',true);
-        // }
-
         $("#ddlCountry").on('change', function() {
             var id = $(this).val();
             $.ajax({
