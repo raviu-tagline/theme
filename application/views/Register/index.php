@@ -59,6 +59,9 @@
             }
         ?>
 
+        <input type='hidden' id='hdnUp_ID' name='hdnUp_ID' value="<?php echo $id != NULL ? $id : '';?>"/>
+        <input type='hidden' id='hdnErr' name='hdnErr' value="<?php echo !empty($this->form_validation->error_array()) ? 'TRUE' : 'FALSE';?>"/>
+
         <input type="text" id="txtName" name="fullName" placeholder="Enter Full Name" value="<?php echo set_value('fullName') ? set_value('fullName') : (
             isset($tmpArr['reg_name']) ? $tmpArr['reg_name'] : "");?>" required/>
 

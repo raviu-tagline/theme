@@ -65,7 +65,7 @@
 
             if($query->result())
             {
-                return $query->result();
+                return $query->result_array();
             }
             else
             {

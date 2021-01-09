@@ -2,8 +2,16 @@
 <script>
     $(document).ready(function(){
 
-        $('#ddlState').attr('disabled',true);
-        $('#ddlCity').attr('disabled',true);
+        if($('#hdnUp_ID').val() != null || $('#hdnErr').val() == true)
+        {
+            $('#ddlState').attr('disabled',false);
+            $('#ddlCity').attr('disabled',false);
+        }
+        else
+        {
+            $('#ddlState').attr('disabled',true);
+            $('#ddlCity').attr('disabled',true);
+        }
 
         $("#ddlCountry").on('change', function() {
             var id = $(this).val();

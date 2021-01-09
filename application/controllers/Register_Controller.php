@@ -51,12 +51,25 @@
                 {
                     // $record = $this->DbOperations->getById($id);
                     // $data['records'] = $record;
+                    echo "hey";
                     $data['records'] = $this->DbOperations->getById($id);
                     var_dump($data['records']);
                 }
                 else
                 {
+                    $country_id = $this->input->post('ddlCountry');
                     $data['records'] = '';
+                    $data['state'] = $this->findState($country_id);
+                    if(!empty($this->input->post('ddlState')))
+                    {
+                        $state_id = $this->input->post('ddlState');
+                        $data['city'] = $this->findCity($state_id);
+                    }
+                    else
+                    {
+                        var_dump($state);
+                    }
+                    // $data['city'] = $this->findCity();
                 }
                 $this->load->view("Register/index.php",$data);
             }
@@ -153,29 +166,28 @@
             $where = array('reg_id' => $id);
             $result = $this->DbOperations->getById($id,'tbl_data',$where);
 
-            $data['state'] = $this->findState($result['country_id']);
-
-            $data['city'] = $this->findCity($result['state_id']);
-
             $data = $this->init();
 
             // $data['info'] = $info;
             $data['records'] = $result;
             $data['id'] = $id;
+            
+            $data['state'] = $this->findState($result['country_id']);
+            $data['city'] = $this->findCity($result['state_id']);
             $this->load->view('Register/index.php',$data);
         }
 
         function findState($country_id)
         {
             $where = array('country_id' => $country_id);
-            $state = $this->DbOperations->getById($country_id, 'tbl_state',$where);
+            $state = $this->DbOperations->getByCondition($where, 'tbl_state');
             return $state;
         }
 
         function findCity($state_id)
         {
             $where = array('state_id' => $state_id);
-            $city = $this->DbOperations->getById($state_id, 'tbl_city',$where);
+            $city = $this->DbOperations->getByCondition($where, 'tbl_city');
             return $city;
         }
 
