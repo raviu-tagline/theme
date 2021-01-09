@@ -1,4 +1,5 @@
 <?php
+    define('PUBPATH',str_replace(SELF,'',FCPATH));
     class DbOperations extends CI_Model
     {
         function __construct()
@@ -29,18 +30,20 @@
 
         public function delete($id,$tbl = "tbl_data")
         {
-            $query = $this->db->select('reg_image')->where('reg_id', $id)->get($tbl);
-            $result = $query->row();
-            $img = '';
-            foreach($result as $key => $val)
+            $query = $this->db->query('select reg_image from tbl_data where reg_id = '.$id);
+            $img = $query->result()[0]->reg_image;
+            $path = PUBPATH.'/images/uploads/'.$img;
+            if(unlink($path))
             {
-                $img = $val;    
+                if($this->db->delete($tbl,"reg_id = ".$id))
+                {
+                    return TRUE;
+                }
             }
-            if($this->db->delete($tbl,"reg_id = ".$id))
+            else
             {
-                $path = base_url('images/uploads/').$img;
-                delete_files($path);
-                return TRUE;
+                echo "<script>alert('Error on delete image from folder')</script>";
+                die;
             }
         }
 

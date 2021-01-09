@@ -106,7 +106,7 @@
                                         </a>
                                     </td>
                                     <td>
-                                        <a href="<?php echo base_url('delete/').$id;?>" onClick="javascript: return confirm('Are you sure to delete this record ?');" name="delete" value="<?php echo $id;?>">
+                                        <a href="#" onClick="javascript: return confirm('Are you sure to delete this record ?');" name="delete" id="delete" value="<?php echo $id;?>">
                                             Delete
                                         </a>
                                     </td>
@@ -138,6 +138,31 @@
                 success: function(response){                    
                     var tmp = JSON.parse(response);
                     $('#data'+id).html("<button id='sub' value="+tmp.value+">"+ tmp.status +"</button>");
+                },
+                error: function(xhr, ajaxOptions, thrownError) {
+                    alert(thrownError);
+                }
+            });
+        });
+
+        $('td').on('click','#delete',function (){
+            var id = $(this).parents('tr').find('#hdnID').val();
+            var el = $(this).parents('tr');
+            $.ajax({
+                url: '<?php echo base_url('delete/').$id;?>',
+                method: 'post',
+                data: {id: id},
+                beforeSend: function() {
+                    el.animate({
+                        visibility: 'hidden',
+                        opacity: 0,
+                        transition: 'visibility 0s 2s, opacity 2s linear'
+                    }, 200);
+                },
+                success: function(resp) {
+                    el.slideUp('slow', function (){
+                        el.remove();
+                    });
                 },
                 error: function(xhr, ajaxOptions, thrownError) {
                     alert(thrownError);
