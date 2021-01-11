@@ -42,8 +42,7 @@
             }
             else
             {
-                echo "<script>alert('Error on delete image from folder')</script>";
-                die;
+                return FALSE;
             }
         }
 
